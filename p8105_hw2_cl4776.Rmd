@@ -17,7 +17,20 @@ library(janitor)
 Import a dataset
 
 ```{r}
-litters_df = 
-  read_csv("data/pols-month.csv")
+litters_df = read_csv("data/pols-month.csv") |> 
+   separate(mon, into = c("year", "month", "day"), sep = "-") |>
+   mutate(
+    year = as.integer(year),
+    month = as.integer(month),
+    day = as.integer(day),
+   
+    month = month.name[month],
+  
+    president = case_when(
+      prez_gop == 1 ~ "gop",
+      prez_dem == 1 ~ "dem"
+    )
+  ) |>
+  select(-day, -prez_gop, -prez_dem)
+litters_df
 ```
-
