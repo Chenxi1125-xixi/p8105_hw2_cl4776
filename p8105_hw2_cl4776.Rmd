@@ -1,0 +1,11 @@
+---
+title: "p8105_hw2_cl4776"
+author: "Chenxi Liu"
+date: "2025-09-30"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
