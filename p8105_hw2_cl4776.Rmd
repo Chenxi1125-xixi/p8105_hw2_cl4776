@@ -243,3 +243,27 @@ Several ZIP codes appear in the NYC crosswalk but not in the Zillow dataset.
 For example, `r paste(head(missing_zips$zip, 5), collapse = ", ")`.  
 These are likely excluded because they correspond to PO boxes, government or industrial zones, or ZIP codes with insufficient rental market data for Zillow to estimate prices.
 
+
+## Rental prices Jan 2020 vs Jan 2021
+
+```{r}
+jan20 <- final |> 
+  filter(date == ymd("2020-01-31")) |> 
+  select(zip, borough, neighborhood, zori_2020 = zori)
+
+jan21 <- final |> 
+  filter(date == ymd("2021-01-31")) |> 
+  select(zip, zori_2021 = zori)
+
+delta <- inner_join(jan20, jan21, by = "zip") |>
+  mutate(change = zori_2021 - zori_2020) |>
+  arrange(change)
+
+top10_drop <- delta |> slice(1:10)
+knitr::kable(top10_drop, digits = 2)
+```
+
+## short description
+
+After importing and merging the Zillow ZORI data with the NYC ZIP–borough–neighborhood crosswalk, the resulting tidy dataset contains `r nrow(final)` observations across `r n_distinct(final$zip)` unique ZIP codes and `r n_distinct(final$neighborhood)` neighborhoods. Key variables include `zip`, `borough`, `neighborhood`, `date` (with `year` and `month`), and `zori`, the Zillow Observed Rent Index. This structure allows us to track monthly rental price changes for each ZIP code in New York City between January 2015 and August 2024.
+
