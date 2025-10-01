@@ -231,4 +231,15 @@ n_obs; n_zip; n_hood
 After cleaning and merging Zillow’s ZORI data with the NYC ZIP–borough–neighborhood crosswalk, the final tidy dataset contains `r n_obs` observations across `r n_zip` unique ZIP codes and `r n_hood` unique neighborhoods.  
 Key variables include `zip`, `borough`, `neighborhood`, `date` (with `year` and `month`), and `zori` (the Zillow Observed Rent Index).
 
+## Missing Zip codes
+
+```{r}
+missing_zips <- nyc_map |> 
+  anti_join(final |> distinct(zip), by = "zip")
+
+head(missing_zips, 10)
+```
+Several ZIP codes appear in the NYC crosswalk but not in the Zillow dataset.  
+For example, `r paste(head(missing_zips$zip, 5), collapse = ", ")`.  
+These are likely excluded because they correspond to PO boxes, government or industrial zones, or ZIP codes with insufficient rental market data for Zillow to estimate prices.
 
