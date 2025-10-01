@@ -89,7 +89,8 @@ The **pols-month** dataset contains counts of national politicians by party and 
 
 ```{r}
 
-mr_trash = read_excel(
+
+mr_trash  = read_excel(
     "data/202409 Trash Wheel Collection Data.xlsx",
     sheet = "Mr. Trash Wheel",
     skip = 1        
@@ -100,7 +101,26 @@ mr_trash = read_excel(
     sports_balls = as.integer(round(sports_balls)),
     trash_wheel = "Mr"
   )
-mr_trash
 ```
+## Professor Trash Wheel
+
+```{r}
+prof_trash = read_excel(
+    "data/202409 Trash Wheel Collection Data.xlsx",
+    sheet = "Professor Trash Wheel",
+    skip = 1
+  ) |>
+  janitor::clean_names() |>
+  filter(!is.na(dumpster))
+
+if(!"sports_balls" %in%  names(prof_trash)) {
+  prof_trash = prof_trash |> mutate(sports_balls = NA_integer_)
+}
+
+prof_trash = prof_trash |> mutate(trash_wheel = "Professor")
+prof_trash
+
+```
+
 
 
