@@ -8,13 +8,12 @@ output: github_document
 ```{r}
 library(tidyverse)
 library(readxl)
-library(haven)
-library(janitor)
+library(lubridate)
 ```
 
 # Problem 1
 
-Import a dataset
+## clean the data in pols_month.csv
 
 ```{r}
 litters_df = read_csv("data/pols-month.csv") |> 
@@ -34,3 +33,21 @@ litters_df = read_csv("data/pols-month.csv") |>
   select(-day, -prez_gop, -prez_dem)
 litters_df
 ```
+
+## clean the data in snp.csv
+
+```{r}
+snp = read_csv("data/snp.csv") |>
+  mutate(
+    date  = mdy(date),
+    year  = year(date),
+    month_num = month(date),
+    month = factor(month.name[month_num], levels = month.name) 
+  ) |>
+  arrange(year, month_num) |>
+  select(year, month, close, -date, -month_num)
+snp
+```
+
+
+
