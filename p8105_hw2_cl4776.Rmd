@@ -95,7 +95,7 @@ mr_trash  = read_excel(
     sheet = "Mr. Trash Wheel",
     skip = 1        
   ) |>
-  clean_names() |>
+  janitor::clean_names() |>
   filter(!is.na(dumpster)) |>               
   mutate(
     sports_balls = as.integer(round(sports_balls)),
@@ -118,9 +118,25 @@ if(!"sports_balls" %in%  names(prof_trash)) {
 }
 
 prof_trash = prof_trash |> mutate(trash_wheel = "Professor")
-prof_trash
 
 ```
 
+## Gwynnda Trash Wheel
 
+```{r}
+gwynnda_trash = read_excel(
+    "data/202409 Trash Wheel Collection Data.xlsx",
+    sheet = "Gwynnda Trash Wheel",
+    skip = 1
+  ) |>
+  janitor::clean_names() |>
+  filter(!is.na(dumpster)) |>
+  select(where(~!all(is.na(.)))) 
 
+if(!"sports_balls" %in% names(gwynnda_trash)) {
+  gwynnda_trash = gwynnda_trash |> mutate(sports_balls = NA_integer_)
+}
+
+gwynnda_trash = gwynnda_trash |> mutate(trash_wheel = "Gwynnda")
+
+```
