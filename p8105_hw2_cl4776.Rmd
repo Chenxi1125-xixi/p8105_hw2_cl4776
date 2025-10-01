@@ -219,5 +219,13 @@ n_hood <- n_distinct(final$neighborhood)
 
 missing_zips <- nyc_map |> anti_join(zori, by = "zip")
 ```
+## Dataset description
 
+```{r}
+n_obs  <- nrow(final)
+n_zip  <- n_distinct(final$zip)
+n_hood <- n_distinct(final$neighborhood)
+
+n_obs; n_zip; n_hood
+```
 
