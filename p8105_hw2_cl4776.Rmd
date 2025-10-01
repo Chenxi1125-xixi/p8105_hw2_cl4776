@@ -49,5 +49,22 @@ snp = read_csv("data/snp.csv") |>
 snp
 ```
 
+## Tidy the unemplyment data and merge with previous datasets
 
+```{r}
+
+unemployment = read_csv("data/unemployment.csv") |>
+  pivot_longer(
+    Jan:Dec, 
+    names_to = "month", 
+    values_to = "unemployment"
+  ) |>
+  mutate(
+    year = as.integer(Year),
+    month = month.name[match(month, month.abb)]
+  ) |>
+  select(year, month, unemployment) |>
+  arrange(year, match(month, month.name))
+unemployment
+```
 
