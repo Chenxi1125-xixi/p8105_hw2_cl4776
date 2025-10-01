@@ -153,5 +153,8 @@ gwynnda_trash = gwynnda_trash |> mutate(
 
 ```{r}
 trash_wheel = bind_rows(mr_trash, prof_trash, gwynnda_trash)
-
+trash_wheel %>%
+  dplyr::glimpse()
 ```
+
+The combined Trash Wheel dataset contains information from Mr. Trash Wheel, Professor Trash Wheel, and Gwynnda, with `r nrow(trash_wheel)` observations and `r ncol(trash_wheel)` variables. Key variables include the dumpster identifier (`dumpster`), collection date (`year`, `month`), total weight of trash collected in tons (`weight_tons`), and item-specific counts such as `cigarette_butts`, `plastic_bottles`, and `sports_balls`. In total, Professor Trash Wheel has collected `r sum(trash_wheel$weight_tons[trash_wheel$trash_wheel == "Professor"], na.rm = TRUE)` tons of trash, while Gwynnda collected `r sum(trash_wheel$cigarette_butts[trash_wheel$trash_wheel == "Gwynnda" & trash_wheel$year == 2022 & trash_wheel$month == "June"], na.rm = TRUE)` cigarette butts in June 2022.
