@@ -70,6 +70,7 @@ unemployment
 ```
 
 ## Merge with previous data and describle these three datasets
+## Merge with previous data and describle these three datasets
 
 ```{r}
 pols_snp = left_join(pols, snp, by = c("year", "month"))
@@ -84,14 +85,13 @@ The **pols-month** dataset contains counts of national politicians by party and 
 
 # Problem 2
 
-
 ## Read and clean Mr. Trash Wheel data
 
 ```{r}
 
 
 mr_trash  = read_excel(
-    "data/202409 Trash Wheel Collection Data.xlsx",
+    "data/202509 Trash Wheel Collection Data.xlsx",
     sheet = "Mr. Trash Wheel",
     skip = 1        
   ) |>
@@ -107,7 +107,7 @@ mr_trash  = read_excel(
 
 ```{r}
 prof_trash = read_excel(
-    "data/202409 Trash Wheel Collection Data.xlsx",
+    "data/202509 Trash Wheel Collection Data.xlsx",
     sheet = "Professor Trash Wheel",
     skip = 1
   ) |>
@@ -130,8 +130,8 @@ prof_trash = prof_trash |> mutate(
 
 ```{r}
 gwynnda_trash = read_excel(
-    "data/202409 Trash Wheel Collection Data.xlsx",
-    sheet = "Gwynnda Trash Wheel",
+    "data/202509 Trash Wheel Collection Data.xlsx",
+    sheet = "Gwynns Falls Trash Wheel",
     skip = 1
   ) |>
   janitor::clean_names() |>
@@ -158,6 +158,7 @@ trash_wheel %>%
 ```
 
 The combined Trash Wheel dataset contains information from Mr. Trash Wheel, Professor Trash Wheel, and Gwynnda, with `r nrow(trash_wheel)` observations and `r ncol(trash_wheel)` variables. Key variables include the dumpster identifier (`dumpster`), collection date (`year`, `month`), total weight of trash collected in tons (`weight_tons`), and item-specific counts such as `cigarette_butts`, `plastic_bottles`, and `sports_balls`. In total, Professor Trash Wheel has collected `r sum(trash_wheel$weight_tons[trash_wheel$trash_wheel == "Professor"], na.rm = TRUE)` tons of trash, while Gwynnda collected `r sum(trash_wheel$cigarette_butts[trash_wheel$trash_wheel == "Gwynnda" & trash_wheel$year == 2022 & trash_wheel$month == "June"], na.rm = TRUE)` cigarette butts in June 2022.
+
 
 # Problem 3
 
@@ -263,7 +264,10 @@ top10_drop <- delta |> slice(1:10)
 knitr::kable(top10_drop, digits = 2)
 ```
 
-## short description
+## COMMENTS
 
 After importing and merging the Zillow ZORI data with the NYC ZIP–borough–neighborhood crosswalk, the resulting tidy dataset contains `r nrow(final)` observations across `r n_distinct(final$zip)` unique ZIP codes and `r n_distinct(final$neighborhood)` neighborhoods. Key variables include `zip`, `borough`, `neighborhood`, `date` (with `year` and `month`), and `zori`, the Zillow Observed Rent Index. This structure allows us to track monthly rental price changes for each ZIP code in New York City between January 2015 and August 2024.
+
+
+
 
